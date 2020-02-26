@@ -1,0 +1,48 @@
+def premitive_roots(p):
+	roots = []
+	for a in range (1,p):
+		for i in range (1,p):
+			x = a**i % p
+			if (x ==1 and i == p-1):
+				roots.append(a)
+				break
+			if (x == 1 and i < p):
+				break 	
+	print("Roots of " + str(p) + " is:")
+	print(roots)
+	return roots
+	
+def key_generation(p,d):
+	root = premitive_roots(p) 
+	e1 = root[0]
+	e2 = e1 ** d % p
+	public_key = [e1,e2,p]
+	return public_key
+	
+def encryption(PT,e1,e2,p):
+	r = 6
+	c1 = e1 ** r % p
+	c2 = (PT * e2**r) % p
+	c=[c1,c2]
+	return c
+
+def decryption(p,c,d):
+	
+	pt = c[1]*(c[0]**(p-1-d)) % p
+	return pt
+
+
+p=19	
+d = 7
+e1 = key_generation(p,d)
+e2 = e1[1]
+e1 = e1[0]
+PT = 9
+c = encryption(PT,e1,e2,p)
+pt = decryption(p,c,d)
+print("Cipher text is :")
+print (c)
+print ("Plain text is : " + str(pt))		
+	
+
+	
